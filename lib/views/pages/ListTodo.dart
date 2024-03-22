@@ -11,24 +11,56 @@ class ListTodoPage extends StatelessWidget {
 
   const ListTodoPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Consumer<TodoProvider>(
-        builder: (context, todoProvider, child) {
-          return listTodos(todoProvider);
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 10.0, 
-        child: const Icon(Icons.add),
-        onPressed: () => loadCreateTodoPage(context),
-      ),
-    );
-  }
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(title, style: const TextStyle(color: Colors.white)),
+      backgroundColor: Colors.blueGrey,
+    ),
+    body: Consumer<TodoProvider>(
+      builder: (context, todoProvider, child) {
+        return ListView.builder(
+          itemCount: todoProvider.todos.length,
+          itemBuilder: (context, index) {
+            Todo todo = todoProvider.todos[index];
+            return Card(
+              margin: const EdgeInsets.all(8.0),
+              child: ListTile(
+                leading: Checkbox(
+                  value: todo.status,
+                  onChanged: (bool? value) {
+                    todoProvider.updateTodoStatus(todo, value!);
+                  },
+                ),
+                title: Text(
+                  todo.name,
+                  style: todo.status ?? false
+                      ? TextStyle(decoration: TextDecoration.lineThrough)
+                      : null,
+                ),
+                subtitle: Text(todo.description),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    todoProvider.deleteTodo(todo);
+                     
+                  },
+                ),
+              ),
+            );
+          },
+        );
+      },
+    ),
+    floatingActionButton: FloatingActionButton(
+      elevation: 10.0,
+      child: Icon(Icons.add),
+      backgroundColor: Colors.blueGrey,
+      onPressed: () => loadCreateTodoPage(context),
+    ),
+  );
+}
 
   ListView listTodos(TodoProvider todoProvider) {
     List<Todo> todos = todoProvider.todos;
