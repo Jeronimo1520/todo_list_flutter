@@ -24,11 +24,11 @@ class _AddTodoPageState extends State<AddTodoPage> {
         title: const Text('Agregar tarea'),
       ),
       body: Consumer<TodoProvider>(
-          builder: (context, todoProvider, child) => contactForm(todoProvider)),
+          builder: (context, todoProvider, child) => addTodoForm(todoProvider)),
     );
   }
 
-  Form contactForm(TodoProvider todoProvider) {
+  Form addTodoForm(TodoProvider todoProvider) {
     return Form(
       key: _key,
       child: Padding(
@@ -65,12 +65,12 @@ class _AddTodoPageState extends State<AddTodoPage> {
             TextButton(
               onPressed: () {
                 if (_key.currentState!.validate()) {
-                  // Asegúrate de que el formulario es válido antes de guardar la tarea
                   saveTodo(_key,
                       name: name,
                       description: description,
                       provider: todoProvider,
                       deadline: deadline);
+                      Navigator.pop(context);
                 }
               },
               child: const Text("Guardar tarea"),

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:todolist/controllers/TodoProvider.dart';
 import 'package:todolist/model/todo.dart';
 import 'package:todolist/views/pages/addTodo.dart';
+import 'package:todolist/views/pages/editTodo.dart';
 
 // ignore: must_be_immutable
 class ListTodoPage extends StatelessWidget {
@@ -36,7 +37,8 @@ class ListTodoPage extends StatelessWidget {
                   title: Text(
                     todo.name,
                     style: todo.status ?? false
-                        ? const TextStyle(decoration: TextDecoration.lineThrough)
+                        ? const TextStyle(
+                            decoration: TextDecoration.lineThrough)
                         : null,
                   ),
                   subtitle: Column(
@@ -47,11 +49,28 @@ class ListTodoPage extends StatelessWidget {
                           'Fecha límite: ${todo.deadline?.toLocal().toString().split(' ')[0] ?? 'No establecida'}') // Muestra la fecha límite aquí
                     ],
                   ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      todoProvider.deleteTodo(todo);
-                    },
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize
+                        .min, // Esto asegura que la fila no ocupe todo el espacio disponible
+                    children: <Widget>[
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditTodoPage(todo: todo),
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          todoProvider.deleteTodo(todo);
+                        },
+                      ),
+                    ],
                   ),
                 ),
               );
