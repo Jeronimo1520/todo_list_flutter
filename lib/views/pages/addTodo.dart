@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todolist/controllers/CreateTodoController.dart';
-import 'package:todolist/controllers/TodoProvider.dart';
-import 'package:provider/provider.dart';
+// import 'package:todolist/controllers/TodoProvider.dart';
+// import 'package:provider/provider.dart';
 
 class AddTodoPage extends StatefulWidget {
   const AddTodoPage({super.key});
@@ -23,12 +23,11 @@ class _AddTodoPageState extends State<AddTodoPage> {
       appBar: AppBar(
         title: const Text('Agregar tarea'),
       ),
-      body: Consumer<TodoProvider>(
-          builder: (context, todoProvider, child) => addTodoForm(todoProvider)),
+      body: addTodoForm()
     );
   }
 
-  Form addTodoForm(TodoProvider todoProvider) {
+  Form addTodoForm() {
     return Form(
       key: _key,
       child: Padding(
@@ -68,9 +67,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   saveTodo(_key,
                       name: name,
                       description: description,
-                      provider: todoProvider,
                       deadline: deadline);
-                      Navigator.pop(context);
+                      Navigator.pop(context,true);
                 }
               },
               child: const Text("Guardar tarea"),

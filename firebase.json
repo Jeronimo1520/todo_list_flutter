@@ -1,0 +1,21 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "flutter-udem-20241",
+                    "appId": "1:851241419345:android:5460b36696055e37f42e70",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "flutter-udem-20241",
+                    "configurations": {
+                        "android": "1:851241419345:android:5460b36696055e37f42e70"
+                    }
+                }
+            }
+        }
+    }
+}

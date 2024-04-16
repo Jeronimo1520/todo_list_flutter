@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todolist/controllers/TodoProvider.dart';
-import 'package:provider/provider.dart';
+import 'package:todolist/controllers/TodoController.dart';
 import 'package:todolist/model/todo.dart';
 
 class EditTodoPage extends StatefulWidget {
@@ -18,10 +17,14 @@ class _EditTodoPageState extends State<EditTodoPage> {
   late String name;
   late String description;
   late DateTime deadline;
+  late String id;
+
+  TodoController todoController = TodoController();
 
   @override
   void initState() {
     super.initState();
+    id = widget.todo.id!;
     name = widget.todo.name;
     description = widget.todo.description;
     deadline = widget.todo.deadline!;
@@ -33,13 +36,11 @@ class _EditTodoPageState extends State<EditTodoPage> {
       appBar: AppBar(
         title: const Text('Editar tarea'),
       ),
-      body: Consumer<TodoProvider>(
-          builder: (context, todoProvider, child) =>
-              editTodoForm(todoProvider)),
+      body: editTodoForm(todoController)
     );
   }
 
-  Form editTodoForm(TodoProvider todoProvider) {
+  Form editTodoForm(TodoController todoController) {
     return Form(
       key: _key,
       child: Padding(
@@ -76,9 +77,9 @@ class _EditTodoPageState extends State<EditTodoPage> {
               onPressed: () {
                 if (_key.currentState!.validate()) {
                   _key.currentState!.save();
-                  todoProvider.updateTodo(widget.todo,
-                      name: name, description: description, deadline: deadline);
-                  Navigator.pop(context);
+                  todoController.updateTodo(widget.todo.id!,
+                       name,description,deadline);
+                  Navigator.pop(context, true);
                 }
               },
               child: const Text('Guardar'),

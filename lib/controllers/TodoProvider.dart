@@ -32,5 +32,6 @@ class TodoProvider extends ChangeNotifier {
       _todos[index].deadline = deadline;
       notifyListeners();
     }
+    
   }
 }
